@@ -3,7 +3,10 @@ from rich import print
 
 
 def get_path(day: int):
-    return Path(f"./data/input{day}.txt")
+    path = Path(f"./data/input{day}.txt")
+    if not path.parent.is_dir():
+        path.parent.mkdir()
+    return path
 
 
 def readlines(day: int):
