@@ -1,8 +1,9 @@
-with open("data/input1.txt") as f:
-    data = f.read().splitlines()
-    split = [d.split("   ") for d in data]
-    l1 = sorted([int(s[0]) for s in split])
-    l2 = sorted([int(s[1]) for s in split])
+from aoc.files import readlines
+
+data = readlines(1)
+split = [d.split("   ") for d in data]
+l1 = sorted([int(s[0]) for s in split])
+l2 = sorted([int(s[1]) for s in split])
 
 dist = 0
 for l1a, l2b in zip(l1, l2):
