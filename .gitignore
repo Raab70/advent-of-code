@@ -1,6 +1,9 @@
 # Ignore AoC input files
 data/
 
+# Profiler output
+*.prof
+
 # Ruff cache
 .ruff_cache/
 

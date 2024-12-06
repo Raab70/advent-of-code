@@ -4,13 +4,15 @@ sync:  ## Sync the requirements
 setup:  ## Setup tools needed
 	uv tool install ruff
 	uv tool install ipython
+	uv tool install snakeviz
 
 lint:  ## Lint and format with Ruff
 	@ruff check
 	@ruff format . --check
 	@ruff format .
 
-
+profile:  ## Profile the code
+	snakeviz profile.prof
 
 #################################################################################
 # Self Documenting Commands                                                     #
