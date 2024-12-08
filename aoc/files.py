@@ -3,8 +3,24 @@ from pathlib import Path
 from rich import print
 
 
+def get_py_template_path():
+    return Path("./_template.py")
+
+
 def get_py_path(day: int):
     return Path(f"./day{day}.py")
+
+
+def create_day_from_template(day: int):
+    template_path = get_py_template_path()
+    if not template_path.is_file():
+        raise FileNotFoundError(f"Template file {template_path.absolute()} not found")
+    pypath = get_py_path(day)
+    with open(template_path) as f:
+        template = f.read()
+    with open(pypath, "w") as f:
+        f.write(template)
+    print(f"Day {day} created from template at {pypath.absolute()}")
 
 
 def get_data_path(day: int):

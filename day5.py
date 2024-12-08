@@ -36,9 +36,7 @@ sample = """
 75,97,47,61,53
 61,13,29
 97,13,75,29,47
-""".split(
-    "\n"
-)
+""".split("\n")
 # Uncomment this line to use the sample data
 # data = sample
 

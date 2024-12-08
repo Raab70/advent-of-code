@@ -37,7 +37,9 @@ def replace_char(s, i, c):
 
 
 def move_guard(data):
-    gy = [(GU in l or GR in l or GD in l or GL in l) for l in data].index(True)
+    gy = [(GU in lst or GR in lst or GD in lst or GL in lst) for lst in data].index(
+        True
+    )
     # Find out which guard is in the row
     if GU in data[gy]:
         gx = data[gy].index(GU)
@@ -79,7 +81,9 @@ while True:
         data = move_guard(data)
     except IndexError:
         # Replace the guard with a mark
-        gy = [(GU in l or GR in l or GD in l or GL in l) for l in data].index(True)
+        gy = [(GU in lst or GR in lst or GD in lst or GL in lst) for lst in data].index(
+            True
+        )
         if GU in data[gy]:
             gx = data[gy].index(GU)
         elif GR in data[gy]:
@@ -92,7 +96,7 @@ while True:
         break
 
 # print("\n".join(data))
-print(sum([l.count(MARK) for l in data]))
+print(sum([lst.count(MARK) for lst in data]))
 
 
 # Part 2
@@ -101,7 +105,9 @@ print(sum([l.count(MARK) for l in data]))
 
 
 def get_guard_post(data):
-    gy = [(GU in l or GR in l or GD in l or GL in l) for l in data].index(True)
+    gy = [(GU in lst or GR in lst or GD in lst or GL in lst) for lst in data].index(
+        True
+    )
     if GU in data[gy]:
         gx = data[gy].index(GU)
     elif GR in data[gy]:

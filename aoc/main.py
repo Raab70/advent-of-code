@@ -1,10 +1,12 @@
-import sys
 import importlib.util
+import sys
 from datetime import datetime, timezone
+
 import typer
 from rich import print
+
+from aoc.files import create_day_from_template, get_data_path, get_py_path, write_input
 from aoc.requests import get_session
-from aoc.files import write_input, get_data_path, get_py_path
 
 app = typer.Typer()
 
@@ -27,8 +29,23 @@ def run(day: int, year: int = 2024):
     module = importlib.util.module_from_spec(spec)
     sys.modules[script_file.stem] = module
     spec.loader.exec_module(module)
-    module.part_one()
-    module.part_two()
+    try:
+        module.part_one()
+        module.part_two()
+    except AttributeError:
+        print("The module does not have part_one or part_two functions")
+
+
+@app.command()
+def create(day: int):
+    """Create a new day from the template
+
+    Parameters
+    ----------
+    day : int
+        The day to be created
+    """
+    create_day_from_template(day)
 
 
 @app.command()
