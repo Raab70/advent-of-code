@@ -1,3 +1,4 @@
+import re
 from collections import defaultdict
 
 from rich import print
@@ -51,8 +52,9 @@ def is_oob(data, x, y):
 
 
 if __name__ == "__main__":
-    print(f"Starting {__file__}")
-    data = readlines(10)
+    day_no = re.search(r"day(\d+).py", __file__).group(1)
+    print(f"Starting Day {day_no}")
+    data = readlines(day_no)
     sample = """
 012345
 123456

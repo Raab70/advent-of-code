@@ -13,7 +13,8 @@ def pr(s):
 
 if __name__ == "__main__":
     print(f"Starting {__file__}")
-    data = readlines(9)
+    day_no = __file__.split("/")[-1].split(".")[0]
+    data = readlines(day_no)
     sample = """
     """
     # Comment out this line to use actual data
