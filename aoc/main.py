@@ -6,9 +6,29 @@ import typer
 from rich import print
 
 from aoc.files import create_day_from_template, get_data_path, get_py_path, write_input
+from aoc.leaderboard import print_daily_top_n, fetch_leaderboard
 from aoc.requests import get_session
 
 app = typer.Typer()
+
+
+@app.command()
+def leaderboard(year: int = 2024, day: int = None, n: int = 3, board_id: int = 3239080):
+    """Fetch the leaderboard
+
+    Parameters
+    ----------
+    year : int
+        The year to be used
+    day : int
+        Filter to a single day, prints all days if omitted
+    n : int
+        The number of top members to print
+    board_id : int
+        The ID of the leaderboard
+    """
+    data = fetch_leaderboard(year, board_id)
+    print_daily_top_n(data, day=day, n=n)
 
 
 @app.command()

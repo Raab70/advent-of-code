@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from rich import print
 
-from aoc.files import get_data_path, readlines
+from aoc.files import readlines
 
 sample = """
 ............
