@@ -2,13 +2,8 @@ from copy import deepcopy
 from collections import defaultdict, Counter
 from rich import print
 
-import pyperclip
 from aoc.files import readlines
-
-
-def pr(s):
-    print(s)
-    pyperclip.copy(str(s))
+from aoc.pr import pr
 
 
 if __name__ == "__main__":

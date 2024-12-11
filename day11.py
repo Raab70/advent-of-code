@@ -1,15 +1,10 @@
 from collections import Counter
 
-import pyperclip
 from rich import print
 from tqdm import tqdm
 
 from aoc.files import readlines
-
-
-def pr(s):
-    print(s)
-    pyperclip.copy(str(s))
+from aoc.pr import pr
 
 
 def single_blink(stone: int):
