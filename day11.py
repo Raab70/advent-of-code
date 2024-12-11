@@ -1,6 +1,4 @@
-import multiprocessing as mp
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
-from queue import Queue
+from collections import Counter
 
 import pyperclip
 from rich import print
@@ -26,25 +24,18 @@ def single_blink(stone: int):
 
 
 def blink(stones):
-    new_stones = {}
+    new_stones = Counter()
     for stone, cnt in stones.items():
         for ns in single_blink(stone):
-            new_stones[ns] = new_stones.get(ns, 0) + cnt
+            new_stones[ns] += cnt
     return new_stones
 
 
 def blinks(stones, n):
     for idx in range(n):
-        print(f"Step {idx} have {len(stones):,} stones")
+        print(f"Step {idx} have {len(stones):,} unique stones")
         stones = blink(stones)
     return stones
-
-
-def build_stones_dict(data):
-    stones_dict = {}
-    for stone in map(int, data):
-        stones_dict[stone] = stones_dict.get(stone, 0) + 1
-    return stones_dict
 
 
 if __name__ == "__main__":
@@ -61,11 +52,11 @@ if __name__ == "__main__":
     # If the stone is 0 it becomes 1
     # If the stone has en even number of digits it becomes two stones for each half of digits
     # If no other rules apply the stone's number is multiplied by 2024
-    stones_dict = build_stones_dict(data)
+    stones_dict = Counter(map(int, data))
     stones_dict = blinks(stones_dict, 25)
-    pr(sum(stones_dict.values()))
+    pr(stones_dict.total())
 
     # Part 2
-    stones_dict = build_stones_dict(data)
+    stones_dict = Counter(map(int, data))
     stones_dict = blinks(stones_dict, 75)
-    pr(sum(stones_dict.values()))
+    pr(stones_dict.total())
