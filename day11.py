@@ -1,3 +1,4 @@
+import re
 from collections import Counter
 
 from rich import print
@@ -34,9 +35,9 @@ def blinks(stones, n):
 
 
 if __name__ == "__main__":
-    print(f"Starting {__file__}")
-    # day_no = __file__.split("/")[-1].split(".")[0]
-    data = readlines(11)
+    day_no = int(re.search(r"day(\d+).py", __file__).group(1))
+    print(f"Starting Day {day_no}")
+    data = readlines(day_no)
     sample = ["0 1 10 99 999"]
     sample = ["125 17"]
     # Comment out this line to use actual data
