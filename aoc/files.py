@@ -8,7 +8,7 @@ def get_py_template_path():
 
 
 def get_py_path(day: int):
-    return Path(f"./day{day}.py")
+    return Path(f"./day{day:02d}.py")
 
 
 def create_day_from_template(day: int):
@@ -24,7 +24,7 @@ def create_day_from_template(day: int):
 
 
 def get_data_path(day: int):
-    path = Path(f"./data/input{day}.txt")
+    path = Path(f"./data/input{day:02d}.txt")
     if not path.parent.is_dir():
         path.parent.mkdir()
     return path
