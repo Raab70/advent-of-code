@@ -2,7 +2,6 @@ import re
 from collections import Counter
 
 from rich import print
-from tqdm import tqdm
 
 from aoc.files import readlines
 from aoc.pr import pr
