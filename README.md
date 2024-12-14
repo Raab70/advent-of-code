@@ -7,6 +7,12 @@ This repository contains solutions for the Advent of Code challenges.
 To get started with this project, you need to have `uv` [installed](https://docs.astral.sh/uv/getting-started/installation/).
 With `uv` installed you can use `make sync` to create and synchronize a virtual environment with all the dependencies needed.
 
+### Credentials Setup
+If you want to use the `aoc` commands below such as looking at a leaderboard or downloading puzzle inputs you'll need a session token from [adventofcode.com](adventofcode.com). Visit the website and login, then use devtools to inspect your requests and copy your session token. It'll be in the headers of your request as a cookie called `session`. This needs to be put into an environment variable called `AOC_SESSION` which is easiest to do by creating a `.env` file which has the contents:
+```sh title=".env"
+AOC_SESSION=your_session_token
+```
+
 ### How I Solved
 To get started with I used `make setup` to install tools like `ipython` that I use for solving problems.
 
@@ -34,9 +40,9 @@ The `aoc` package provides several CLI commands to help you manage and run your 
     aoc download-all
     ```
 
-- `aoc lb --day <day>`: print the top of the leaderboard for the given day filter (optional), shows actual submission times instead of just stars
+- `aoc leaderboard --day <day>`: print the top of the leaderboard for the given day filter (optional), shows actual submission times instead of just stars
     ```sh
-    aoc lb --day 1
+    aoc leaderboard --day 1
     ```
 
 Use `aoc --help` for more information as all commands are documented and be sure to checkout all of the solution utilities like `aoc/grid.py`

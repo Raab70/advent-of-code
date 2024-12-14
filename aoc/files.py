@@ -8,6 +8,7 @@ def get_py_template_path():
 
 
 def get_py_path(day: int):
+    # TODO: This needs to handle year as well
     return Path(f"./day{day:02d}.py")
 
 
