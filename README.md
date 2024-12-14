@@ -9,7 +9,7 @@ With `uv` installed you can use `make sync` to create and synchronize a virtual 
 
 ### Credentials Setup
 If you want to use the `aoc` commands below such as looking at a leaderboard or downloading puzzle inputs you'll need a session token from [adventofcode.com](adventofcode.com). Visit the website and login, then use devtools to inspect your requests and copy your session token. It'll be in the headers of your request as a cookie called `session`. This needs to be put into an environment variable called `AOC_SESSION` which is easiest to do by creating a `.env` file which has the contents:
-```sh title=".env"
+```sh
 AOC_SESSION=your_session_token
 ```
 
@@ -19,7 +19,7 @@ To get started with I used `make setup` to install tools like `ipython` that I u
 To prepare for a new puzzle I follow this process:
 1. run `aoc create <day>` where `<day>` is the current puzzle number to solve. This uses `_template.py` to create a file that's ready for development with a few utilities like the `pr` function which makes copying answers easy.
 2. Open a terminal and get ready with `aoc download <day>`, you'll be running this as soon as the puzzle drops
-3. Open another terminal with `ipython` which you'll use for development. I mostly used the `%run dayXX.py` magic function to allow me to run scripts quickly but still have an interactive shell. By keeping code at the module-level after you use run you have access to all variables for further development.
+3. Open another terminal with `ipython` which you'll use for development. I mostly used the `%run dayXX.py` magic function to allow me to run scripts quickly but still have an interactive shell. By keeping code at the module-level after you use run you have access to all variables for further development. As you finish logic you can pull it out into a function for readability.
 
 ## Available CLI Commands
 
