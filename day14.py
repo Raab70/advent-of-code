@@ -19,6 +19,34 @@ def step(r, maxx, maxy):
     return newr
 
 
+def read_robots(data):
+    r = []
+    for line in data:
+        x, y, vx, vy = map(int, re.findall(r"-?\d+", line))
+        r.append((x, y, vx, vy))
+    return r
+
+
+def print_grid_pts(r, maxx, maxy):
+    grid = [["." for _ in range(maxx)] for _ in range(maxy)]
+    for x, y, _, _ in r:
+        grid[y][x] = "#"
+    for row in grid:
+        print("".join(row))
+
+
+def max_consecutive(row):
+    maxs = 1
+    s = 1
+    for j in range(1, len(row)):
+        if row[j] - row[j - 1] == 1:
+            s += 1
+        else:
+            maxs = max(maxs, s)
+            s = 1
+    return maxs
+
+
 if __name__ == "__main__":
     day_no = int(re.search(r"day(\d+).py", __file__).group(1))
     print(f"Starting Day {day_no}")
@@ -45,11 +73,7 @@ p=9,5 v=-3,-3
     # maxx = 11
     # maxy = 7
 
-    r = []
-    for line in data:
-        x, y, vx, vy = map(int, re.findall(r"-?\d+", line))
-        r.append((x, y, vx, vy))
-
+    r = read_robots(data)
     for i in range(100):
         r = step(r, maxx, maxy)
 
@@ -65,36 +89,16 @@ p=9,5 v=-3,-3
     q4 = sum(v for k, v in c.items() if k[0] < midx and k[1] > midy)
     pr(q1 * q2 * q3 * q4)
 
-    # Part 2
-    def print_grid_pts(r):
-        grid = [["." for _ in range(maxx)] for _ in range(maxy)]
-        for x, y, _, _ in r:
-            grid[y][x] = "#"
-        for row in grid:
-            print("".join(row))
-
     # Reload the data for part 2
-    data = readlines(day_no)
-    maxx = 101
-    maxy = 103
-
-    r = []
-    for line in data:
-        x, y, vx, vy = map(int, re.findall(r"-?\d+", line))
-        r.append((x, y, vx, vy))
+    r = read_robots(data)
 
     for i in tqdm(range(100_000)):
         r = step(r, maxx, maxy)
         # If we have a cluster of 9 robots in a row, print
         for y in range(maxy):
             row = sorted([rx for rx, ry, _, _ in r if ry == y])
-            s = 1
-            for j in range(1, len(row)):
-                if row[j] - row[j - 1] == 1:
-                    s += 1
-                    if s == 9:
-                        print_grid_pts(r)
-                        pr(i + 1)
-                        sys.exit()
-                else:
-                    s = 1
+            s = max_consecutive(row)
+            if s >= 9:
+                print_grid_pts(r, maxx, maxy)
+                pr(i + 1)
+                sys.exit()
