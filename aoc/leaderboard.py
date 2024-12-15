@@ -1,6 +1,8 @@
-from datetime import datetime
-from rich import print
 from collections import defaultdict
+from datetime import datetime
+
+from rich import print
+
 from aoc.requests import get_session
 
 
@@ -13,7 +15,7 @@ def fetch_leaderboard(year: int = 2024, board_id: int = 3239080):
 
 
 def print_day_leaders(parts, day: int, n: int = 5):
-    parts = dict(sorted(parts.items(), reverse=True))
+    parts = dict(sorted(parts.items(), reverse=False))
     for part, members in parts.items():
         print(f"Day {day} Part {part}")
         prev = None
@@ -49,8 +51,8 @@ def print_daily_top_n(data, n: int = 5, day: int = None):
                 )
     if day is not None:
         daily_leaderboard = {day: daily_leaderboard[day]}
-    # Sort the dictionary so that the days and parts are in descending order
-    daily_leaderboard = dict(sorted(daily_leaderboard.items(), reverse=True))
+    # Sort the dictionary so that the days and parts are in ascending order
+    daily_leaderboard = dict(sorted(daily_leaderboard.items(), reverse=False))
     for day, parts in daily_leaderboard.items():
         print()
         print_day_leaders(parts, day, n)
