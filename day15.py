@@ -8,27 +8,28 @@ from aoc.files import readlines
 from aoc.pr import pr
 
 sys.setrecursionlimit(10_000)
+ROBOT = "@"
+BOX = "O"
+WALL = "#"
+EMPTY = "."
+DIRECTIONS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+MOVES = {
+    "v": (0, 1),
+    "^": (0, -1),
+    ">": (1, 0),
+    "<": (-1, 0),
+}
 
 
 def print_map(map):
     print("\n".join("".join(row) for row in map))
 
 
-def gps_sum(map):
+def gps_sum(map, box=BOX):
     s = 0
     for y, row in enumerate(map):
         for x, cell in enumerate(row):
-            if cell == BOX:
-                print(f"Box at ({x}, {y}) = {100 * y + x}")
-                s += (100 * (y)) + x
-    return s
-
-
-def big_gps_sum(map):
-    s = 0
-    for y, row in enumerate(map):
-        for x, cell in enumerate(row):
-            if cell == "[":
+            if cell == box:
                 print(f"Box at ({x}, {y}) = {100 * y + x}")
                 s += (100 * (y)) + x
     return s
@@ -88,18 +89,6 @@ v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
     # Comment out this line to use actual data
     # data = sample
 
-    ROBOT = "@"
-    BOX = "O"
-    WALL = "#"
-    EMPTY = "."
-    DIRECTIONS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    MOVES = {
-        "v": (0, 1),
-        "^": (0, -1),
-        ">": (1, 0),
-        "<": (-1, 0),
-    }
-
     map = []
     for idx, line in enumerate(data):
         if not line:
@@ -150,13 +139,13 @@ v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
         map[y][x] = EMPTY
         return new_x, new_y
 
-    # for m in moves:
-    #     # print()
-    #     robot = move(robot, map, m)
-    #     # print(f"Move: {m}")
-    #     # print_map(map)
-    # print_map(map)
-    # pr(gps_sum(map))
+    for m in moves:
+        # print()
+        robot = move(robot, map, m)
+        # print(f"Move: {m}")
+        # print_map(map)
+    print_map(map)
+    pr(gps_sum(map))
 
     # Part 2
     BIGBOX = ["[", "]"]
@@ -271,4 +260,4 @@ v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
         # print_map(newmap)
 
     print_map(newmap)
-    pr(big_gps_sum(newmap))
+    pr(gps_sum(newmap, box="["))
