@@ -23,10 +23,12 @@ def print_day_leaders(parts, day: int, n: int = 5):
             diff_str = None
             if prev is not None:
                 diff = timestamp - prev
-                if diff < 60:
+                if diff < 120:
                     diff_str = f"({diff} [yellow]seconds[/yellow])"
+                elif diff < 3600:
+                    diff_str = f"({diff / 60:0.1f} minutes)"
                 else:
-                    diff_str = f"({diff // 60} minutes)"
+                    diff_str = f"({diff / 3600:0.1f} hours)"
 
             if diff_str:
                 print(
