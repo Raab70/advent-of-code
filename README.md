@@ -40,9 +40,9 @@ The `aoc` package provides several CLI commands to help you manage and run your 
     aoc download-all
     ```
 
-- `aoc leaderboard --day <day>`: print the top of the leaderboard for the given day filter (optional), shows actual submission times instead of just stars
+- `aoc lb --day <day>`: print the top of the leaderboard for the given day filter (optional), shows actual submission times instead of just stars
     ```sh
-    aoc leaderboard --day 1
+    aoc lb --day 1
     ```
 
 Use `aoc --help` for more information as all commands are documented and be sure to checkout all of the solution utilities like `aoc/grid.py`
