@@ -1,11 +1,8 @@
 import math
 import re
-from collections import Counter, defaultdict
-from copy import deepcopy
 
 import numpy as np
 from rich import print
-from tqdm import tqdm
 
 from aoc.files import readlines
 from aoc.pr import pr
