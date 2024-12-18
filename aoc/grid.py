@@ -1,10 +1,14 @@
+from typing import Union, Any, List, Tuple
 import math
 from functools import total_ordering
 from rich import print
 
 
-def is_oob(grid, x, y):
+def is_oob(grid: List[List[Any]], x: Union[int, Tuple, "Point"], y: int = None) -> bool:
     """Returns true if the x, y coordinates are out of bounds for the given grid"""
+    if y is None and (isinstance(x, tuple) or isinstance(x, Point)):
+        x, y = x
+
     maxx = len(grid[0])
     maxy = len(grid)
     if x < 0 or y < 0 or x >= maxx or y >= maxy:
@@ -12,7 +16,7 @@ def is_oob(grid, x, y):
     return False
 
 
-def is_inb(grid, x, y):
+def is_inb(grid: List[List[Any]], x: Union[int, Tuple, "Point"], y: int = None) -> bool:
     """Returns true if the x, y coordinates are in bounds for the given grid"""
     return not is_oob(grid, x, y)
 
@@ -114,6 +118,9 @@ class Point:
         if idx == 1:
             return self.y
         raise IndexError
+
+    def is_adjacent(self, other):
+        return abs(self.x - other.x) + abs(self.y - other.y) == 1
 
     @property
     def length(self):
