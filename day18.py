@@ -1,8 +1,9 @@
 import re
-from collections import Counter, defaultdict
-from copy import deepcopy
+import time
+from collections import defaultdict
 
 from rich import print
+import networkx as nx
 
 from aoc.files import readlines
 from aoc.grid import DIRS, Point
@@ -17,9 +18,18 @@ def print_grid(grid):
         print()
 
 
+def build_grid_pt_graph(maxx, maxy):
+    G = nx.grid_2d_graph(maxx + 1, maxy + 1)
+    mapping = {node: Point(node[0], node[1]) for node in G.nodes()}
+    G = nx.relabel_nodes(G, mapping)
+    return G
+
+
 if __name__ == "__main__":
     day_no = int(re.search(r"day(\d+).py", __file__).group(1))
     print(f"Starting Day {day_no}")
+
+    start_time = time.time()
     data = readlines(day_no)
 
     data = [tuple(map(int, x.split(","))) for x in data]
@@ -85,8 +95,6 @@ if __name__ == "__main__":
 
     grid = defaultdict(int)
     for i in range(10_000):
-        if i % 100 == 0:
-            print(i)
         pt = pts[i]
         grid[pt] = 1
 
@@ -94,3 +102,43 @@ if __name__ == "__main__":
             print(f"Found at {i}")
             pr(pt)
             break
+    print(f"Time taken: {time.time() - start_time:.2f}")
+
+    # What if we try to do it with NetworkX?
+    print()
+    print("Starting NetworkX solution")
+    start_time = time.time()
+    data = readlines(day_no)
+
+    data = [tuple(map(int, x.split(","))) for x in data]
+    pts = [Point(x, y) for x, y in data]
+
+    # Input are coordinates from 0-70 in both directions but these are byte positions
+    # x is left edge and y is top edge
+    start = Point(0, 0)
+    end = Point(70, 70)
+
+    # Part 1
+    # As bytes fall they corrupt that memory space
+    graph = build_grid_pt_graph(end.x, end.y)
+    for i in range(1024):
+        if i > len(pts) - 1:
+            break
+        pt = pts[i]
+        graph.remove_node(pt)
+    pr(nx.shortest_path_length(graph, start, end))
+
+    # Part 2
+    graph = build_grid_pt_graph(end.x, end.y)
+    for i in range(10_000):
+        if i > len(pts) - 1:
+            break
+        pt = pts[i]
+        graph.remove_node(pt)
+        try:
+            dist = nx.shortest_path_length(graph, start, end)
+        except nx.NetworkXNoPath:
+            print(f"Found at {i}")
+            pr(pt)
+            break
+    print(f"Time taken: {time.time() - start_time:.2f}")
