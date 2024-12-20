@@ -1,6 +1,7 @@
-from typing import Union, Any, List, Tuple
 import math
 from functools import total_ordering
+from typing import Any, List, Tuple, Union
+
 from rich import print
 
 
@@ -121,6 +122,9 @@ class Point:
 
     def is_adjacent(self, other):
         return abs(self.x - other.x) + abs(self.y - other.y) == 1
+
+    def neighbors(self):
+        return [self + dd for dd in DIRS]
 
     @property
     def length(self):
