@@ -57,12 +57,14 @@ if __name__ == "__main__":
     pr(tot)
 
     # Part 2
+    print("Part 2")
     # Price is the ones digit (mod 10)
     # Monkeys look for changes in price
     # We need a single sequence of 4 prices for each secret that says when to sell
     history = defaultdict(list)
     sales_lookup = defaultdict(dict)
-    for secret in data:
+    sequences = set()
+    for secret in tqdm(data):
         secret = int(secret)
         initial = secret
         last = secret % 10
@@ -74,33 +76,23 @@ if __name__ == "__main__":
             delta = price - last
             last = price
             last4.append(delta)
-            last4_tuple = tuple(last4.copy())
+            last4_tuple = tuple(last4)
+            sequences.add(last4_tuple)
             history[initial].append((price, last4_tuple))
             if len(last4) != 4:
                 continue
             if last4_tuple in sales_lookup[initial]:
                 continue
-            sales_lookup[initial][tuple(last4.copy())] = price
+            sales_lookup[initial][last4_tuple] = price
             # print(f"Price {price} Delta: {delta}")
 
     # Now sum up all of the prices for all of the numbers, What is the most bananas we can get?
-    print("Part 2")
-    sequences = set(v[1] for lt in history.values() for v in lt)
-
-    def get_sale_price(sales_list, seq):
-        for sale in sales_list:
-            if sale[1] == seq:
-                return sale[0]
-        return None
-
-    def get_sale_price_fast(initial_secret, seq):
-        return sales_lookup[initial_secret].get(seq)
 
     m = 0
     sales = defaultdict(int)
-    for seq in tqdm(sequences):
-        for k, v in history.items():
-            price = get_sale_price_fast(k, seq)
+    for k in tqdm(history.keys()):
+        for seq in sequences:
+            price = sales_lookup[k].get(seq)
             # if seq == (-1, 1, 0, 0):
             #     print(f"For {k} price is {price}")
             if price is not None:
