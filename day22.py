@@ -1,8 +1,6 @@
-import itertools
 import re
 import sys
-from collections import Counter, defaultdict, deque
-from copy import deepcopy
+from collections import defaultdict, deque
 
 from rich import print
 from tqdm import tqdm

@@ -1,10 +1,8 @@
 import re
 import sys
-from functools import cache, lru_cache
+from functools import cache
 
-import networkx as nx
 from rich import print
-from tqdm import tqdm
 
 from aoc.grid import Point
 from aoc.pr import pr
