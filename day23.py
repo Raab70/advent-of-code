@@ -1,55 +1,21 @@
-import itertools
 import re
 import sys
 
 import networkx as nx
+from aocd.models import Puzzle
 from rich import print
 
-from aoc.files import readlines
 from aoc.pr import pr
 
 sys.setrecursionlimit(10**6)
 
 if __name__ == "__main__":
     day_no = int(re.search(r"day(\d+).py", __file__).group(1))
+    puzzle = Puzzle(year=2024, day=day_no)
     print(f"Starting Day {day_no}")
-    data = readlines(day_no)
-    sample = """
-    kh-tc
-qp-kh
-de-cg
-ka-co
-yn-aq
-qp-ub
-cg-tb
-vc-aq
-tb-ka
-wh-tc
-yn-cg
-kh-ub
-ta-co
-de-co
-tc-td
-tb-wq
-wh-td
-ta-ka
-td-qp
-aq-cg
-wq-ub
-ub-vc
-de-ta
-wq-aq
-wq-vc
-wh-yn
-ka-de
-kh-ta
-co-tc
-wh-qp
-tb-vc
-td-yn
-""".strip().splitlines()
+    data = puzzle.input_data.splitlines()
     # Comment out this line to use actual data
-    # data = sample
+    # data = puzzle.examples[0].input_data.splitlines()
 
     G = nx.Graph()
     for line in data:
@@ -64,8 +30,10 @@ td-yn
             if any(v.startswith("t") for v in clique):
                 trios.add(tuple(sorted(clique)))
     pr(len(trios))
+    puzzle.answer_a = len(trios)
 
     # Part 2
     max_clique = max(nx.find_cliques(G), key=len)
     # The password is the computer names in the maximum clique, in alphabetical order, separated by commas
     pr(",".join(sorted(max_clique)))
+    puzzle.answer_b = ",".join(sorted(max_clique))

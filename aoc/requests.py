@@ -1,4 +1,5 @@
 import os
+
 import requests
 
 
@@ -13,5 +14,7 @@ def get_session(session_cookie: str = None) -> requests.Session:
     if session_cookie is None:
         session_cookie = get_session_cookie()
     session = requests.Session()
+    # Set a custom User-Agent
+    session.headers.update({"User-Agent": "aoc (github.com/Raab70/advent-of-code/)"})
     session.cookies.set("session", session_cookie)
     return session
