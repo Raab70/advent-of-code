@@ -59,11 +59,10 @@ td-yn
     # Consider only computer names that start with t
     # Find all the sets of three connected computers
     trios = set()
-    for clique in nx.find_cliques(G):
-        if len(clique) >= 3:
-            for triangle_nodes in itertools.combinations(clique, 3):
-                if any(v.startswith("t") for v in triangle_nodes):
-                    trios.add(tuple(sorted(triangle_nodes)))
+    for clique in nx.clique.enumerate_all_cliques(G):
+        if len(clique) == 3:
+            if any(v.startswith("t") for v in clique):
+                trios.add(tuple(sorted(clique)))
     pr(len(trios))
 
     # Part 2
