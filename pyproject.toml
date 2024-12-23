@@ -23,7 +23,7 @@ packages = ["aoc"]
 package = true
 
 [project.scripts]
-aoc = "aoc.__main__:app"
+advent = "aoc.__main__:app"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.

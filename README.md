@@ -17,32 +17,32 @@ AOC_SESSION=your_session_token
 To get started with I used `make setup` to install tools like `ipython` that I use for solving problems.
 
 To prepare for a new puzzle I follow this process:
-1. run `aoc create <day>` where `<day>` is the current puzzle number to solve. This uses `_template.py` to create a file that's ready for development with a few utilities like the `pr` function which makes copying answers easy.
-2. Open a terminal and get ready with `aoc download <day>`, you'll be running this as soon as the puzzle drops
+1. run `advent create <day>` where `<day>` is the current puzzle number to solve. This uses `_template.py` to create a file that's ready for development with a few utilities like the `pr` function which makes copying answers easy.
+2. Open a terminal and get ready with `advent download <day>`, you'll be running this as soon as the puzzle drops
 3. Open another terminal with `ipython` which you'll use for development. I mostly used the `%run dayXX.py` magic function to allow me to run scripts quickly but still have an interactive shell. By keeping code at the module-level after you use run you have access to all variables for further development. As you finish logic you can pull it out into a function for readability.
 
 ## Available CLI Commands
 
-The `aoc` package provides several CLI commands to help you manage and run your solutions. Below are the available commands:
+The `advent` package provides several CLI commands to help you manage and run your solutions. Below are the available commands:
 
-- `aoc create <day>`: Initialize the solution for a specific day.
+- `advent create <day>`: Initialize the solution for a specific day.
     ```sh
-    aoc create 1
+    advent create 1
     ```
 
-- `aoc download <day>`: Download the puzzle input to the `data/` directory for use in your script
+- `advent download <day>`: Download the puzzle input to the `data/` directory for use in your script
     ```sh
-    aoc download 1
+    advent download 1
     ```
 
-- `aoc download-all`: Download all currently released puzzle inputs
+- `advent download-all`: Download all currently released puzzle inputs
     ```sh
-    aoc download-all
+    advent download-all
     ```
 
-- `aoc lb --day <day>`: print the top of the leaderboard for the given day filter (optional), shows actual submission times instead of just stars
+- `advent lb --day <day>`: print the top of the leaderboard for the given day filter (optional), shows actual submission times instead of just stars
     ```sh
-    aoc lb --day 1
+    advent lb --day 1
     ```
 
-Use `aoc --help` for more information as all commands are documented and be sure to checkout all of the solution utilities like `aoc/grid.py`
+Use `advent --help` for more information as all commands are documented and be sure to checkout all of the solution utilities like `aoc/grid.py`
