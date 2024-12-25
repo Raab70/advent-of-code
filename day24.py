@@ -102,30 +102,39 @@ if __name__ == "__main__":
                     nodes[i] = (a, b, func, pair[0])
         return nodes
 
-    def test_flip(nodes, pairs, bit):
+    def test_flip(nodes, pairs, bit, verbose=False):
         "Returns True if the flip works for the given bit"
         nodes = flip(nodes, pairs)
         for x in [0, 1]:
             for y in [0, 1]:
+                tmp_nodes = deepcopy(nodes)
                 inx = bin(x << bit)[2:].zfill(maxx)
                 iny = bin(y << bit)[2:].zfill(maxy)
                 values = {}
                 for i in range(maxx):
-                    values[f"x{i:02d}"] = inx[-i]
-                    values[f"y{i:02d}"] = iny[-i]
+                    values[f"x{i:02d}"] = int(inx[-(i + 1)])
+                    values[f"y{i:02d}"] = int(iny[-(i + 1)])
                 assert get_bin(values, "x") == x << bit
                 assert get_bin(values, "y") == y << bit
                 expected = (x << bit) + (y << bit)
-
                 try:
-                    values = process(nodes, values)
+                    values = process(tmp_nodes, values)
                 except RuntimeError:
+                    if verbose:
+                        print("Failing to complete processing")
                     return False
-                a = get_bin(values)
+                try:
+                    a = get_bin(values)
+                except (ValueError, TypeError):
+                    if verbose:
+                        print("Failing to get output")
+                    return False
                 # Only check the bits we're interested in:
                 bina = bin(a)
                 bine = bin(expected)
                 if bina != bine:
+                    if verbose:
+                        print(f"Bit {bit} failed for {x=} {y=}")
                     return False
         return True
 
@@ -191,6 +200,82 @@ if __name__ == "__main__":
             bad_conns.add(x)
         if terminal_nodes[y] != expected:
             bad_conns.add(y)
+
+    flippable = bad_conns.copy()
+    while True:
+        for i, (a, b, _, out) in enumerate(nodes):
+            found = False
+            if a in flippable or b in flippable:
+                found = True
+                flippable.add(out)
+            if found:
+                pass
+                # nodes.pop(i)
+        else:
+            break
+
+    flippable = set(G.nodes())
+    pairs = list(itertools.combinations(flippable, 2))
+    flips = []
+    for bit in range(maxx):
+        works = test_flip(nodes, flips, bit)
+        print(f"Starting on bit {bit} which works with {flips}? {works}")
+        if works:
+            continue
+        for pair in tqdm(pairs):
+            # Test if this pair can reach our output node we're trying to fix
+            if not any(
+                [
+                    nx.has_path(G, p, f"z{bit:02d}")
+                    or nx.has_path(G, p, f"z{bit+1:02d}")
+                    for p in pair
+                ]
+            ):
+                continue
+            works = test_flip(nodes, flips + [pair], bit)
+            if works:
+                print(f"[green]SUCCESS[/green] Found flip {pair} for bit {bit}")
+                flips.append(pair)
+                break
+
+    wires = sorted(set(itertools.chain(*flips)))
+    assert len(wires) == 8
+    pr(",".join(wires))
+    # puzzle.answer_b = ",".join(wires)
+    sys.exit()
+
+    flippable = defaultdict(set)
+    # Get all nodes that could possible influence each bit
+    for bit in range(maxx):
+        startx = f"x{bit:02d}"
+        starty = f"y{bit:02d}"
+        end = f"z{bit:02d}"
+        end2 = f"z{bit+1:02d}"
+        for path in nx.all_simple_paths(G, startx, end):
+            flippable[bit].update(path[:-1])
+        for path in nx.all_simple_paths(G, starty, end):
+            flippable[bit].update(path[:-1])
+        for path in nx.all_simple_paths(G, startx, end2):
+            flippable[bit].update(path[:-1])
+        for path in nx.all_simple_paths(G, starty, end2):
+            flippable[bit].update(path[:-1])
+
+    flips = []
+    nodes, _ = parse(data)
+    for bit in range(len(bina)):
+        fb = flippable[bit] | flippable[bit + 1]
+        pairs = list(itertools.combinations(fb, 2))
+        # First, check if this bit already works
+        works = test_flip(nodes, [], bit)
+        print(f"Starting on bit {bit} which works? {works}")
+        if works:
+            continue
+        for pair in tqdm(pairs):
+            works = test_flip(nodes, pairs, bit)
+            if works:
+                flips.add(pair)
+                pairs.remove(pair)
+                break
 
     sys.exit()
     # MORE OLD CODE -------------------------------------------------------------------------------------
