@@ -56,9 +56,3 @@ if __name__ == "__main__":
                 # print(f"Lock {lock} and key {key} [red]overlap[/red]!")
     pr(a)
     puzzle.answer_a = a
-
-    # Part 2
-
-    b = None
-    pr(b)
-    # puzzle.answer_b = b
