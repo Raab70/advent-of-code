@@ -1,13 +1,8 @@
-import itertools
 import re
 import sys
-from collections import Counter, defaultdict, deque
-from copy import deepcopy
 
-import networkx as nx
 from aocd.models import Puzzle
 from rich import print
-from tqdm import tqdm
 
 from aoc.pr import pr
 

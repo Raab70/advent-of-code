@@ -1,12 +1,8 @@
 import re
 import sys
-from collections import Counter, defaultdict
-from copy import deepcopy
 
-import networkx as nx
 from aocd.models import Puzzle
 from rich import print
-from tqdm import tqdm
 
 from aoc.pr import pr
 
@@ -41,7 +37,7 @@ if __name__ == "__main__":
     def match(lock, key):
         if len(lock) != len(key):
             return False
-        if all((l + k) <= 5 for l, k in zip(lock, key)):
+        if all((lo + k) <= 5 for lo, k in zip(lock, key)):
             return True
         return False
 
