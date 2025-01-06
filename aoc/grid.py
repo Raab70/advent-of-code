@@ -69,7 +69,7 @@ def print_grid_pt(grid, pt):
 
 @total_ordering
 class Point:
-    """Simple 2-dimensional point."""
+    """Simple 2-dimensional point. Adapted from https://github.com/iKevinY/advent/blob/main/2024/utils.py"""
 
     def __init__(self, x, y):
         self.x = x
